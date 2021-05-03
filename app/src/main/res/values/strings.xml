@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">weather</string>
+    <string name="location_req_title">Why we need your permission?</string>
+    <string name="location_req_desc">In order to be accurate, we need to access your location</string>
+    <string name="ok">Ok</string>
+    <string name="empty_value">--</string>
+    <string name="separation">/</string>
+</resources>
