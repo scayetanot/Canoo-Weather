@@ -4,8 +4,8 @@ import android.content.Context
 import com.example.canooweather.data_source.LocalDataSource
 import com.example.canooweather.data_source.LocalDataSourceImpl
 import com.example.canooweather.di.modules.*
+import com.example.canooweather.ui.DetailsActivity
 import com.example.canooweather.ui.MainActivity
-import com.example.canooweather.ui.fragment.DailyTemperaturesFragment
 import dagger.Component
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -31,5 +31,5 @@ interface AppComponents {
     fun appDataBase(): LocalDataSource
 
     fun inject(mainActivity: MainActivity)
-    fun inject(hourlyTemperaturesFragment: DailyTemperaturesFragment)
+    fun inject(detailsActivity: DetailsActivity)
 }

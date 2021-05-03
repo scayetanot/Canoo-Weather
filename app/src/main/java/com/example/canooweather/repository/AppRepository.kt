@@ -1,13 +1,14 @@
 package com.example.canooweather.repository
 
+import android.content.Context
 import com.example.canooweather.data.ResultForeCast
-import com.example.canooweather.data.entity.DailyDataEntity
-import com.example.canooweather.data.entity.model.ForeCast
+import com.example.canooweather.data.entity.DailyEntity
+import com.example.canooweather.data.entity.ForeCast
 
 interface AppRepository {
-    suspend fun getForecast(latitude: Double, longitude: Double): ResultForeCast<ForeCast>
-    suspend fun getForecastFromApi(latitude: Double, longitude: Double): ResultForeCast<ForeCast>
+    suspend fun getForecast(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast>
+    suspend fun getForecastFromApi(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast>
     suspend fun getForecastFromDb(): ResultForeCast<ForeCast>
 
-    suspend fun getDetailsForDailyForecast(uuid: String): ResultForeCast<List<DailyDataEntity>>
+    suspend fun getDailyTemperatures(city: String): ResultForeCast<List<DailyEntity>>
 }

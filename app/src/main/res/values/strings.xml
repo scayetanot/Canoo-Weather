@@ -5,4 +5,5 @@
     <string name="ok">Ok</string>
     <string name="empty_value">--</string>
     <string name="separation">/</string>
+    <string name="percentage">%</string>
 </resources>

@@ -16,7 +16,6 @@
         tools:layout_editor_absoluteY="-77dp">
 
 
-
         <LinearLayout
             android:id="@+id/weatherLayout"
             android:layout_width="wrap_content"
@@ -29,33 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/locationName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="Los Angeles"
-                android:textSize="56sp"
-                tools:text="Irvine" />
-
-            <TextView
-                android:id="@+id/locationTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Tuesday, 22nd March - 10:30pm"
-                android:textSize="14sp"
-                tools:text="Tuesday, 22nd March - 10:30pm" />
-
-            <TextView
-                android:id="@+id/locationSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="summary"
-                android:textSize="14sp"
-                tools:text="Tuesday, 22nd March - 10:30pm" />
 
             <ImageView
                 android:id="@+id/locationWeatherPic"
@@ -74,49 +46,70 @@
                 android:textSize="54sp"
                 tools:text="23" />
 
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/locationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:maxLines="1"
+                android:textSize="56sp"
+                android:text="@string/empty_value"
+                tools:text="Los Angeles" />
 
-                <TextView
-                    android:id="@+id/locationMinTemperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/empty_value"
-                    android:textSize="14sp"
-                    tools:text="10" />
+            <TextView
+                android:id="@+id/locationSummary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="summary" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/separation"/>
+            <TextView
+                android:id="@+id/highTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="22F" />
 
+            <TextView
+                android:id="@+id/lowTemp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="00F" />
 
-                <TextView
-                    android:id="@+id/locationMaxTemperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/empty_value"
-                    android:textSize="14sp"
-                    tools:text="35" />
+            <TextView
+                android:id="@+id/sunrise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="2am" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/sunset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="2pm" />
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:text="@string/empty_value"
+                tools:text="20%" />
 
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/frame_layout_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

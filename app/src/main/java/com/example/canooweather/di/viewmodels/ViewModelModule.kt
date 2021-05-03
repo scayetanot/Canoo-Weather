@@ -2,8 +2,8 @@ package com.example.canooweather.di.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.canooweather.ui.DetailsActivityViewModel
 import com.example.canooweather.ui.MainActivityViewModel
-import com.example.canooweather.ui.fragment.DailyTemperatureViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,8 +18,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DailyTemperatureViewModel::class)
-    abstract fun bindHourlyTemperatureVM(hourlyTemperatureViewModel: DailyTemperatureViewModel): ViewModel
+    @ViewModelKey(DetailsActivityViewModel::class)
+    abstract fun bindHourlyTemperatureVM(hourlyTemperatureViewModel: DetailsActivityViewModel): ViewModel
 
 
     @Binds

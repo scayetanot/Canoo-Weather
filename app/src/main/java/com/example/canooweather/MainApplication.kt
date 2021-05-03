@@ -2,6 +2,7 @@ package com.example.canooweather
 
 import android.app.Application
 import com.example.canooweather.di.component.AppComponents
+import com.example.canooweather.di.component.DaggerAppComponents
 import com.example.canooweather.di.modules.AppModule
 import com.example.canooweather.di.modules.StorageModule
 import com.example.canooweather.utils.InternetUtil

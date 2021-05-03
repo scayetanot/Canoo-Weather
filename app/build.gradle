@@ -17,7 +17,6 @@ android {
         versionName "1.0"
 
 
-        //DarkSky setup
         buildConfigField 'String', 'OPEN_WEATHER_URL', "\"https://api.openweathermap.org/\""
         buildConfigField 'String', 'OPEN_WEATHER_SECRET_KEY', "\"d8074f59d10a03fd22ec1b5ceacea820\""
 

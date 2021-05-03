@@ -1,4 +1,4 @@
-package com.example.canooweather.ui.fragment
+package com.example.canooweather.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,20 +6,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.databinding.DataBindingUtil
 import com.example.canooweather.R
-import com.example.canooweather.data.entity.HourlyDataEntity
+import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.DailyTempItemLayoutBinding
-import com.example.canooweather.utils.convertToReadableHour
+import com.example.canooweather.utils.convertToReadableDay
 import com.example.canooweather.utils.findDrawable
 import com.example.canooweather.utils.formatTemperature
 
 class TemperaturesAdapter(
-        var listOfTemperatures: List<HourlyDataEntity>) : RecyclerView.Adapter<TemperaturesAdapter.ViewHolder>() {
+        var listOfTemperatures: List<DailyEntity>) : RecyclerView.Adapter<TemperaturesAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return listOfTemperatures.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TemperaturesAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             parent.context,
                 DataBindingUtil.inflate(
@@ -38,11 +38,12 @@ class TemperaturesAdapter(
     inner class ViewHolder(private val context: Context, private val viewDataBinding: DailyTempItemLayoutBinding) :
             RecyclerView.ViewHolder(viewDataBinding.root) {
 
-        fun bindViewHolder(hourlyTemperature: HourlyDataEntity) {
-            viewDataBinding.hour.text = convertToReadableHour(hourlyTemperature.time)
-            viewDataBinding.icon.setImageDrawable(findDrawable(context, hourlyTemperature.icon))
-            viewDataBinding.temp.text = formatTemperature(hourlyTemperature.temperature)
-            //viewDataBinding.itemClickListener =
+        fun bindViewHolder(dailyTemperature: DailyEntity) {
+            viewDataBinding.day.text = convertToReadableDay(dailyTemperature.dt)
+            viewDataBinding.temp.text = formatTemperature(dailyTemperature.temp.day)
+            viewDataBinding.tempMax.text = formatTemperature(dailyTemperature.temp.max)
+            viewDataBinding.tempMin.text = formatTemperature(dailyTemperature.temp.min)
+            viewDataBinding.icon.setImageDrawable(findDrawable(context, dailyTemperature.weather.first().icon))
         }
     }
 

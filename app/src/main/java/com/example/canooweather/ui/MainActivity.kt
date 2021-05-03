@@ -1,13 +1,13 @@
 package com.example.canooweather.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.canooweather.MainApplication
 import com.example.canooweather.R
-import com.example.canooweather.ui.fragment.DailyTemperaturesFragment
-import com.example.canooweather.utils.findDrawable
-import com.example.canooweather.utils.formatTemperature
-import com.example.canooweather.utils.replaceFragment
-import com.example.canooweather.utils.viewModelProvider
-import com.google.android.gms.location.*
+import com.example.canooweather.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -37,27 +32,26 @@ class MainActivity : AppCompatActivity() {
     private var latitude: Double = DFLT_LAT
     private var longitude: Double = DFLT_LONG
 
-    private lateinit  var uuid: String
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var city: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initViews()
         initObservers()
         checkLocationPermission()
 
         weatherLayout.setOnClickListener {
-            if (savedInstanceState == null && uuid != null) {
-                frame_layout_container.visibility = View.VISIBLE
-                replaceFragment(DailyTemperaturesFragment(), R.id.frame_layout_container, uuid)
+            if (savedInstanceState == null) {
+                val intent = Intent(this, DetailsActivity::class.java)
+                intent.putExtra(EXTRA_CITY, city)
+                startActivity(intent)
             }
         }
 
@@ -68,20 +62,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        getViewModel().getForeCast(latitude, longitude )
+        getViewModel().getForeCast(this, latitude, longitude )
     }
 
     private fun initObservers() {
 
         getViewModel().forecastResponse.observe(this, Observer {
-            getViewModel().getCityName(applicationContext, it.latitude, it.longitude)
-            locationTime.text = it.dateTime
-            locationSummary.text = it.summary
-            locationWeatherPic.setImageDrawable(findDrawable(applicationContext, it.icon))
-            locationCurrentTemperature.text = formatTemperature(it.currentTemp)
-            locationMinTemperature.text = formatTemperature(it.minTemp)
-            locationMaxTemperature.text = formatTemperature(it.maxTemp)
-            uuid = it.uuid
+            locationWeatherPic.setImageDrawable(findDrawable(applicationContext, it.current.weather.first().icon))
+            locationCurrentTemperature.text = formatTemperature(it.current.temp)
+            city = it.city
+            locationName.text = it.city
+            locationSummary.text = it.current.weather.first().main
+            highTemp.text = formatTemperature(it.daily.first().temp.max)
+            lowTemp.text = formatTemperature(it.daily.first().temp.min)
+            sunrise.text = convertToReadableDate(it.current.sunrise)
+            sunset.text = convertToReadableDate(it.current.sunset)
+            humidity.text = """${it.current.humidity}${getString(R.string.percentage)}"""
         })
 
         getViewModel().findCityResponse.observe(this, Observer {
@@ -142,22 +138,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestLocation(){
-        //getFusedLocation()
         getRealLocation()
     }
 
-    private fun getFusedLocation() {
-        fusedLocationClient.lastLocation
-                 .addOnSuccessListener { location : Location? ->
-                     if(location != null ) {
-                         latitude = location.latitude
-                         longitude = location.longitude
-                         getViewModel().getForeCast(latitude, longitude)
-                     } else {
-                         getRealLocation()
-                     }
-                 }
-    }
     private fun getRealLocation(){
         val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
         try {
@@ -174,8 +157,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(location: Location) {
             latitude = location.latitude
             longitude = location.longitude
-           // uuid = empty<UUID>()
-            getViewModel().getForeCast(latitude, longitude)
+            getViewModel().getForeCast(applicationContext, latitude, longitude)
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -183,6 +165,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        val UUID_KEY: String = "UUID"
+        const val EXTRA_CITY = "city"
     }
 }

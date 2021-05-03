@@ -1,30 +1,29 @@
-package com.example.canooweather.ui.fragment
+package com.example.canooweather.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.canooweather.data.ResultForeCast
-import com.example.canooweather.data.entity.HourlyDataEntity
+import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.repository.AppRepositoryImpl
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
-class DailyTemperatureViewModel @Inject constructor(
-        private val repositoryImpl: AppRepositoryImpl
+class DetailsActivityViewModel @Inject constructor(
+    private val repositoryImpl: AppRepositoryImpl
 ) : ViewModel() {
 
-    private var _resultDailyTemperature = MutableLiveData<List<HourlyDataEntity>>()
-    var resultDailyTemperature: LiveData<List<HourlyDataEntity>> = _resultDailyTemperature
+    private var _resultDailyTemperature = MutableLiveData<List<DailyEntity>>()
+    var resultDailyTemperature: LiveData<List<DailyEntity>> = _resultDailyTemperature
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
-    fun getHourlyTemperatures(uuid: String?){
+    fun getDailyTemperatures(city: String?){
         viewModelScope.launch {
             try{
-                when(val response = repositoryImpl.getDetailsForHourlyForecast(uuid!!)){
+                when(val response = repositoryImpl.getDailyTemperatures(city!!)){
                     is ResultForeCast.Success -> {
                         _resultDailyTemperature.postValue(response.data)
                     }
@@ -40,4 +39,3 @@ class DailyTemperatureViewModel @Inject constructor(
     }
 
 }
-
