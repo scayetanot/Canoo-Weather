@@ -164,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(location: Location) {
             latitude = location.latitude
             longitude = location.longitude
-            getViewModel().getForeCast(applicationContext, latitude, longitude)
+          //  getViewModel().getForeCast(applicationContext, latitude, longitude)
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
