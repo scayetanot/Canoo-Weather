@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
-        Fresco.initialize(context)
+        Fresco.initialize(this)
         setContentView(R.layout.activity_main)
 
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
