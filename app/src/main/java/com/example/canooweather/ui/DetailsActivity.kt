@@ -30,7 +30,7 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+       // setContentView(R.layout.activity_details)
         var city: String? = ""
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 

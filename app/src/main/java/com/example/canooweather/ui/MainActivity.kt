@@ -26,6 +26,7 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     private val appComponents by lazy { MainApplication.appComponents }
+
     private val LOCATION_REQUEST_CODE = 666
     private val DFLT_LAT: Double = 33.942791
     private val DFLT_LONG: Double = -118.410042
@@ -38,15 +39,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var binding: ActivityMainBinding
-    lateinit var city: String
+     var city: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        appComponents.inject(this)
         super.onCreate(savedInstanceState)
+        appComponents.inject(this)
         Fresco.initialize(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
 
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initViews()
@@ -74,8 +75,6 @@ class MainActivity : AppCompatActivity() {
     private fun initObservers() {
 
         getViewModel().forecastResponse.observe(this, Observer {
-        //    locationWeatherPic.setImageDrawable(findDrawable(applicationContext, it.current.weather.first().icon))
-
             binding.locationWeatherPic.setImageURI(convertToUri(it.current.weather.first().icon))
             binding.locationCurrentTemperature.text = formatTemperature(it.current.temp)
             city = it.city
@@ -165,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(location: Location) {
             latitude = location.latitude
             longitude = location.longitude
-     //       getViewModel().getForeCast(applicationContext, latitude, longitude)
+            getViewModel().getForeCast(applicationContext, latitude, longitude)
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}

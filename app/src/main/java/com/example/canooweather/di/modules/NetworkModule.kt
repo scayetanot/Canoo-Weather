@@ -23,7 +23,7 @@ class NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
         okHttpClient: OkHttpClient
     ): Retrofit {
-        return Retrofit.Builder().baseUrl("https://api.openweathermap.org/"/*BuildConfig.OPEN_WEATHER_URL*/)
+        return Retrofit.Builder().baseUrl(BuildConfig.OPEN_WEATHER_URL)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()
@@ -34,7 +34,6 @@ class NetworkModule {
     fun providesOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .connectTimeout(IO_TIMEOUT, TimeUnit.SECONDS)
