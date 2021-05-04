@@ -2,6 +2,7 @@ package com.example.canooweather.utils
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.text.format.DateFormat
 import java.util.*
 
@@ -26,5 +27,7 @@ fun findDrawable(context: Context, name: String): Drawable {
     val drawableId = context.resources.getIdentifier(name.replace("-",""), "drawable", context.packageName)
     return context.resources.getDrawable(drawableId)
 }
+
+fun convertToUri(icon: String): Uri = Uri.parse("http://openweathermap.org/img/wn/$icon@2x.png")
 
 

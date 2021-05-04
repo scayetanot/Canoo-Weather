@@ -9,6 +9,7 @@ import com.example.canooweather.R
 import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.DailyTempItemLayoutBinding
 import com.example.canooweather.utils.convertToReadableDay
+import com.example.canooweather.utils.convertToUri
 import com.example.canooweather.utils.findDrawable
 import com.example.canooweather.utils.formatTemperature
 
@@ -43,7 +44,7 @@ class TemperaturesAdapter(
             viewDataBinding.temp.text = formatTemperature(dailyTemperature.temp.day)
             viewDataBinding.tempMax.text = formatTemperature(dailyTemperature.temp.max)
             viewDataBinding.tempMin.text = formatTemperature(dailyTemperature.temp.min)
-            viewDataBinding.icon.setImageDrawable(findDrawable(context, dailyTemperature.weather.first().icon))
+            viewDataBinding.icon.setImageURI(convertToUri(dailyTemperature.weather.first().icon))
         }
     }
 

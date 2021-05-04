@@ -22,7 +22,7 @@ class MainActivityViewModel @Inject constructor(
 
     val forecastResponse = MutableLiveData<ForeCast>()
 
-    val findCityResponse = MutableLiveData<String>()
+    //val findCityResponse = MutableLiveData<String>()
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage

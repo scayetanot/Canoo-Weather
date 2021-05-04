@@ -29,7 +29,7 @@ class AppRepositoryImpl(
         return when (val result = remoteDataSource.getForecast(latitude, longitude)) {
             is ResultForeCast.Success -> {
                 val response = result.data
-                result.data.city = getCityName(context, result.data.lat, result.data.lon)!!
+              //  result.data.city = getCityName(context, result.data.lat, result.data.lon)!!
                 withContext(ioDispatcher) {
                     localDataSource.setForecast(response)
                 }
@@ -62,7 +62,7 @@ class AppRepositoryImpl(
     private fun getCityName(ctx: Context, lat: Double, lon: Double): String? {
             val gcd = Geocoder( ctx, Locale.getDefault())
             val addr: List<Address>
-            var cityName: String?= "Unknown city"
+            var cityName: String?
 
             try {
                 addr = gcd.getFromLocation(lat, lon, 1)

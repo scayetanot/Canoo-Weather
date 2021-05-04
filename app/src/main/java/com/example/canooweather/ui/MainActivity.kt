@@ -17,8 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.canooweather.MainApplication
 import com.example.canooweather.R
+import com.example.canooweather.databinding.ActivityMainBinding
 import com.example.canooweather.utils.*
-import kotlinx.android.synthetic.main.activity_main.*
+import com.facebook.drawee.backends.pipeline.Fresco
 import javax.inject.Inject
 
 
@@ -35,25 +36,26 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var city: String
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
+        Fresco.initialize(context)
         setContentView(R.layout.activity_main)
 
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initViews()
         initObservers()
-        checkLocationPermission()
+   //     checkLocationPermission()
 
-        weatherLayout.setOnClickListener {
-            if (savedInstanceState == null) {
-                val intent = Intent(this, DetailsActivity::class.java)
-                intent.putExtra(EXTRA_CITY, city)
-                startActivity(intent)
-            }
-        }
+     //   weatherLayout.setOnClickListener {
+     //       if (savedInstanceState == null) {
+     //           val intent = Intent(this, DetailsActivity::class.java)
+     //           intent.putExtra(EXTRA_CITY, city)
+     //           startActivity(intent)
+     //       }
+     //   }
 
     }
 
@@ -68,21 +70,22 @@ class MainActivity : AppCompatActivity() {
     private fun initObservers() {
 
         getViewModel().forecastResponse.observe(this, Observer {
-            locationWeatherPic.setImageDrawable(findDrawable(applicationContext, it.current.weather.first().icon))
-            locationCurrentTemperature.text = formatTemperature(it.current.temp)
-            city = it.city
-            locationName.text = it.city
-            locationSummary.text = it.current.weather.first().main
-            highTemp.text = formatTemperature(it.daily.first().temp.max)
-            lowTemp.text = formatTemperature(it.daily.first().temp.min)
-            sunrise.text = convertToReadableDate(it.current.sunrise)
-            sunset.text = convertToReadableDate(it.current.sunset)
-            humidity.text = """${it.current.humidity}${getString(R.string.percentage)}"""
+        //    locationWeatherPic.setImageDrawable(findDrawable(applicationContext, it.current.weather.first().icon))
+
+            binding.locationWeatherPic.setImageURI(convertToUri(it.current.weather.first().icon))
+            binding.locationCurrentTemperature.text = formatTemperature(it.current.temp)
+            binding.locationName.text = it.city
+            binding.locationSummary.text = it.current.weather.first().main
+            binding.highTemp.text = formatTemperature(it.daily.first().temp.max)
+            binding.lowTemp.text = formatTemperature(it.daily.first().temp.min)
+            binding.sunrise.text = convertToReadableDate(it.current.sunrise)
+            binding.sunset.text = convertToReadableDate(it.current.sunset)
+            binding.humidity.text = """${it.current.humidity}${getString(R.string.percentage)}"""
         })
 
-        getViewModel().findCityResponse.observe(this, Observer {
-            locationName.text = it
-        })
+     //   getViewModel().findCityResponse.observe(this, Observer {
+     //       binding.locationName.text = it
+     //   })
 
         getViewModel().errorMessage.observe(this, Observer {
             Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG).show();
@@ -157,7 +160,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(location: Location) {
             latitude = location.latitude
             longitude = location.longitude
-            getViewModel().getForeCast(applicationContext, latitude, longitude)
+     //       getViewModel().getForeCast(applicationContext, latitude, longitude)
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
