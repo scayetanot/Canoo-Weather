@@ -3,6 +3,7 @@ package com.example.canooweather.ui
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +32,8 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
         var city: String? = ""
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
+
 
         if(savedInstanceState != null) {
             city = savedInstanceState.getString(EXTRA_CITY)

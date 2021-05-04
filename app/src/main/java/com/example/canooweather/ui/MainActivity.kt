@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.canooweather.MainApplication
@@ -37,25 +38,28 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var binding: ActivityMainBinding
+    lateinit var city: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
         Fresco.initialize(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
         setContentView(R.layout.activity_main)
 
         //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initViews()
         initObservers()
-   //     checkLocationPermission()
+        checkLocationPermission()
 
-     //   weatherLayout.setOnClickListener {
-     //       if (savedInstanceState == null) {
-     //           val intent = Intent(this, DetailsActivity::class.java)
-     //           intent.putExtra(EXTRA_CITY, city)
-     //           startActivity(intent)
-     //       }
-     //   }
+        binding.weatherLayout.setOnClickListener {
+            if (savedInstanceState == null) {
+                val intent = Intent(this, DetailsActivity::class.java)
+                intent.putExtra(EXTRA_CITY, city)
+                startActivity(intent)
+            }
+        }
 
     }
 
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
             binding.locationWeatherPic.setImageURI(convertToUri(it.current.weather.first().icon))
             binding.locationCurrentTemperature.text = formatTemperature(it.current.temp)
+            city = it.city
             binding.locationName.text = it.city
             binding.locationSummary.text = it.current.weather.first().main
             binding.highTemp.text = formatTemperature(it.daily.first().temp.max)

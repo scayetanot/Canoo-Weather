@@ -1,6 +1,6 @@
 package com.example.canooweather.di.modules
 
-import com.example.canooweather.data.api.ApiService
+import com.example.canooweather.api.ApiService
 import com.example.canooweather.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -23,7 +23,7 @@ class NetworkModule {
         gsonConverterFactory: GsonConverterFactory,
         okHttpClient: OkHttpClient
     ): Retrofit {
-        return Retrofit.Builder().baseUrl(BuildConfig.OPEN_WEATHER_URL)
+        return Retrofit.Builder().baseUrl("https://api.openweathermap.org/"/*BuildConfig.OPEN_WEATHER_URL*/)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()

@@ -19,7 +19,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(DetailsActivityViewModel::class)
-    abstract fun bindHourlyTemperatureVM(hourlyTemperatureViewModel: DetailsActivityViewModel): ViewModel
+    abstract fun bindDetailsActivityVM(detailsActivityViewModel: DetailsActivityViewModel): ViewModel
 
 
     @Binds

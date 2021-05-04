@@ -1,6 +1,6 @@
 package com.example.canooweather.di.modules
 
-import com.example.canooweather.data.api.ApiService
+import com.example.canooweather.api.ApiService
 import com.example.canooweather.data_source.LocalDataSourceImpl
 import com.example.canooweather.data_source.RemoteDataSourceImpl
 import com.example.canooweather.di.IoDispatcher
