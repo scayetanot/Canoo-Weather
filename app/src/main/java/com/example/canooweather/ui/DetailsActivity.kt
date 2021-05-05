@@ -1,6 +1,8 @@
 package com.example.canooweather.ui
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -31,8 +33,24 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 
+        actionBar?.setDisplayHomeAsUpEnabled(true);
+
         initViews()
         initObservers()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return true
     }
 
     private fun initViews() {
@@ -48,7 +66,7 @@ class DetailsActivity : AppCompatActivity() {
 
         getViewModel().errorMessage.observe(this, Observer {
             Toast.makeText(this,"Connection Error", Toast.LENGTH_LONG).show();
-            onBackPressed()
+            finish()
         })
     }
 

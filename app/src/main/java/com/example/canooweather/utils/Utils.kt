@@ -6,13 +6,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun convertToReadableDate(timestamp: Long): String {
-    val formatter = SimpleDateFormat("dd-mm-yyyy")
-    val cal = Calendar.getInstance(Locale.ENGLISH)
-    cal.timeInMillis = timestamp * 1000
-    //val date: LocalDate = LocalDate.parse(formatter.format(cal.time))
-    return "TODAY" //date.dayOfWeek.toString()
-}
+fun convertToReadableDate(timestamp: Long): String =
+    SimpleDateFormat("EEE", Locale.ENGLISH).format(timestamp)
+        .toUpperCase(Locale.ENGLISH)
 
 fun convertToReadableHours(timestamp: Long): String {
     val cal = Calendar.getInstance(Locale.ENGLISH)
