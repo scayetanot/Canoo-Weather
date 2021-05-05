@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.canooweather.data.ResultForeCast
 import com.example.canooweather.data.entity.DailyEntity
+import com.example.canooweather.data.entity.ForeCast
 import com.example.canooweather.repository.AppRepositoryImpl
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,10 +21,10 @@ class DetailsActivityViewModel @Inject constructor(
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
-    fun getDailyTemperatures(city: String?){
+    fun getDailyTemperatures(){
         viewModelScope.launch {
-            try{
-                when(val response = repositoryImpl.getDayWeather(city!!)){
+            try {
+                when (val response = repositoryImpl.getDailyForeCast()){
                     is ResultForeCast.Success -> {
                         _resultDailyTemperature.postValue(response.data)
                     }
@@ -31,8 +32,7 @@ class DetailsActivityViewModel @Inject constructor(
                         _errorMessage.postValue(response.exception.toString())
                     }
                 }
-
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 _errorMessage.postValue(e.message)
             }
         }

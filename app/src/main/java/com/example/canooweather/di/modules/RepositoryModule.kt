@@ -1,7 +1,6 @@
 package com.example.canooweather.di.modules
 
 import com.example.canooweather.api.ApiService
-import com.example.canooweather.data_source.LocalDataSourceImpl
 import com.example.canooweather.data_source.RemoteDataSourceImpl
 import com.example.canooweather.di.IoDispatcher
 import com.example.canooweather.repository.AppRepositoryImpl
@@ -17,10 +16,9 @@ class RepositoryModule {
     @Singleton
     fun provideAppRepository(
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-        api: ApiService,
-        localData: LocalDataSourceImpl
+        api: ApiService
     ): AppRepositoryImpl {
         val userDataSource = RemoteDataSourceImpl(api, ioDispatcher)
-        return AppRepositoryImpl(userDataSource, localData, ioDispatcher)
+        return AppRepositoryImpl(userDataSource, ioDispatcher)
     }
 }

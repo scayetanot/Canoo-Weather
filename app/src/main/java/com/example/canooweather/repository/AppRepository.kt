@@ -7,8 +7,5 @@ import com.example.canooweather.data.entity.ForeCast
 
 interface AppRepository {
     suspend fun getForecast(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast>
-    suspend fun getForecastFromApi(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast>
-    suspend fun getForecastFromDb(): ResultForeCast<ForeCast>
-
-    suspend fun getDayWeather(city: String): ResultForeCast<List<DailyEntity>>
+    suspend fun getDailyForeCast(): ResultForeCast<List<DailyEntity>>
 }

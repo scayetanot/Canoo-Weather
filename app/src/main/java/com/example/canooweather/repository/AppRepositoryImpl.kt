@@ -7,32 +7,25 @@ import com.example.canooweather.data.RemoteDataNotFoundException
 import com.example.canooweather.data.ResultForeCast
 import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.data.entity.ForeCast
-import com.example.canooweather.data_source.LocalDataSourceImpl
 import com.example.canooweather.data_source.RemoteDataSource
 import com.example.canooweather.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import com.example.canooweather.utils.InternetUtil
 import java.io.IOException
 import java.util.*
 
 
 class AppRepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSourceImpl,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : AppRepository {
 
-    private val isInternetOn = InternetUtil.isInternetOn()
+    private var cache: ForeCast? = null
 
-    override suspend fun getForecastFromApi(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast> {
+    override suspend fun getForecast(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast> {
         return when (val result = remoteDataSource.getForecast(latitude, longitude)) {
             is ResultForeCast.Success -> {
-                val response = result.data
+                val response = result.data.also { cache = it }
                 response.city = getCityName(context, result.data.lat, result.data.lon)!!
-                withContext(ioDispatcher) {
-                    localDataSource.setForecast(response)
-                }
                 ResultForeCast.Success(response)
             }
             is ResultForeCast.Error -> {
@@ -41,23 +34,13 @@ class AppRepositoryImpl(
         }
     }
 
-    override suspend fun getForecastFromDb(): ResultForeCast<ForeCast> =
-        withContext(ioDispatcher) {
-            ResultForeCast.Success(localDataSource.getForecast())
-        }
-
-    override suspend fun getForecast(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast> {
-        return if (isInternetOn) {
-            getForecastFromApi(context, latitude, longitude)
+    override suspend fun getDailyForeCast(): ResultForeCast<List<DailyEntity>> {
+        return if (cache == null) {
+            ResultForeCast.Error(RemoteDataNotFoundException())
         } else {
-            getForecastFromDb()
+            ResultForeCast.Success(cache!!.daily)
         }
     }
-
-    override suspend fun getDayWeather(city: String): ResultForeCast<List<DailyEntity>> =
-        withContext(ioDispatcher){
-            ResultForeCast.Success(localDataSource.getDayWeather(city).daily)
-        }
 
     private fun getCityName(ctx: Context, lat: Double, lon: Double): String? {
             val gcd = Geocoder( ctx, Locale.getDefault())

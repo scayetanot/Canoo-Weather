@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
     private val DFLT_LAT: Double = 33.942791
     private val DFLT_LONG: Double = -118.410042
 
+    private val isInternetOn = InternetUtil.isInternetOn()
+
 
     private var latitude: Double = DFLT_LAT
     private var longitude: Double = DFLT_LONG
@@ -41,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var binding: ActivityMainBinding
-    var city: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +55,8 @@ class MainActivity : AppCompatActivity() {
         checkLocationPermission()
 
         binding.detailsBtn.setOnClickListener {
-            if (savedInstanceState == null && city.isNotEmpty()) {
+            if (savedInstanceState == null) {
                 val intent = Intent(this, DetailsActivity::class.java)
-                intent.putExtra(EXTRA_CITY, city)
                 startActivity(intent)
             } else {
                 Toast.makeText(this,"No information available",Toast.LENGTH_LONG).show();
@@ -70,13 +70,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        getViewModel().getForeCast(this, latitude, longitude )
+        if(isInternetOn)
+            getViewModel().getForeCast(this, latitude, longitude )
+        else {
+            displayErrorMessage()
+        }
+    }
+
+    private fun displayErrorMessage(){
+        Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG).show();
     }
 
     private fun initObservers() {
 
         getViewModel().forecastResponse.observe(this, Observer {
-            city = it.city
             binding.locationWeatherPic.setImageURI(convertToUri(it.current.weather.first().icon))
             binding.locationCurrentTemperature.text = formatTemperature(it.current.temp)
             binding.locationName.text = it.city
@@ -89,7 +96,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         getViewModel().errorMessage.observe(this, Observer {
-            Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG).show();
+            displayErrorMessage()
         })
     }
 
@@ -161,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         override fun onLocationChanged(location: Location) {
             latitude = location.latitude
             longitude = location.longitude
-          //  getViewModel().getForeCast(applicationContext, latitude, longitude)
+            getViewModel().getForeCast(applicationContext, latitude, longitude)
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}

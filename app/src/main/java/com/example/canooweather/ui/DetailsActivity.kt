@@ -11,7 +11,6 @@ import com.example.canooweather.MainApplication.Companion.appComponents
 import com.example.canooweather.R
 import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.ActivityDetailsBinding
-import com.example.canooweather.ui.MainActivity.Companion.EXTRA_CITY
 import com.example.canooweather.utils.viewModelProvider
 import javax.inject.Inject
 
@@ -30,20 +29,14 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponents.inject(this)
         super.onCreate(savedInstanceState)
-       // setContentView(R.layout.activity_details)
-        var city: String? = ""
         binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 
-
-        if(savedInstanceState != null) {
-            city = savedInstanceState.getString(EXTRA_CITY)
-        }
-        initViews(city)
+        initViews()
         initObservers()
     }
 
-    private fun initViews(city: String?) {
-        getViewModel().getDailyTemperatures(city)
+    private fun initViews() {
+        getViewModel().getDailyTemperatures()
     }
 
     private fun initObservers() {
@@ -55,6 +48,7 @@ class DetailsActivity : AppCompatActivity() {
 
         getViewModel().errorMessage.observe(this, Observer {
             Toast.makeText(this,"Connection Error", Toast.LENGTH_LONG).show();
+            onBackPressed()
         })
     }
 

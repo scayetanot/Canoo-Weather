@@ -1,8 +1,6 @@
 package com.example.canooweather.di.component
 
 import android.content.Context
-import com.example.canooweather.data_source.LocalDataSource
-import com.example.canooweather.data_source.LocalDataSourceImpl
 import com.example.canooweather.di.modules.*
 import com.example.canooweather.ui.DetailsActivity
 import com.example.canooweather.ui.MainActivity
@@ -16,8 +14,7 @@ import javax.inject.Singleton
         AppModule::class,
         NetworkModule::class,
         RepositoryModule::class,
-        CoroutinesModule::class,
-        StorageModule::class
+        CoroutinesModule::class
     ]
 )
 
@@ -25,10 +22,6 @@ interface AppComponents {
     fun context(): Context
 
     fun retrofit(): Retrofit
-
-    fun appDataObject(): LocalDataSourceImpl
-
-    fun appDataBase(): LocalDataSource
 
     fun inject(mainActivity: MainActivity)
     fun inject(detailsActivity: DetailsActivity)

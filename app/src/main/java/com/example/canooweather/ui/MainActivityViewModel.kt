@@ -22,8 +22,6 @@ class MainActivityViewModel @Inject constructor(
 
     val forecastResponse = MutableLiveData<ForeCast>()
 
-    //val findCityResponse = MutableLiveData<String>()
-
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
@@ -44,21 +42,4 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
-
-   // fun getCityName(ctx: Context, lat: Double, lon: Double){
-   //     viewModelScope.launch {
-   //         val gcd = Geocoder(ctx , Locale.getDefault())
-   //         val addr: List<Address>
-   //         var cityName: String?= "Unknown city"
-   //
-   //         try {
-   //             addr = gcd.getFromLocation(lat, lon, 1)
-   //             cityName = addr.firstOrNull()?.locality
-   //             findCityResponse.postValue(cityName!!)
-   //         } catch (e: IOException) {
-   //             _errorMessage.postValue(e.message)
-   //         }
-
-   //     }
-   // }
 }
