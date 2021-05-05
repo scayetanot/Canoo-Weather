@@ -29,7 +29,7 @@ class AppRepositoryImpl(
         return when (val result = remoteDataSource.getForecast(latitude, longitude)) {
             is ResultForeCast.Success -> {
                 val response = result.data
-              //  result.data.city = getCityName(context, result.data.lat, result.data.lon)!!
+                response.city = getCityName(context, result.data.lat, result.data.lon)!!
                 withContext(ioDispatcher) {
                     localDataSource.setForecast(response)
                 }
@@ -54,9 +54,9 @@ class AppRepositoryImpl(
         }
     }
 
-    override suspend fun getDailyTemperatures(city: String): ResultForeCast<List<DailyEntity>> =
+    override suspend fun getDayWeather(city: String): ResultForeCast<List<DailyEntity>> =
         withContext(ioDispatcher){
-            ResultForeCast.Success(localDataSource.getDailyTemperature(city).daily)
+            ResultForeCast.Success(localDataSource.getDayWeather(city).daily)
         }
 
     private fun getCityName(ctx: Context, lat: Double, lon: Double): String? {

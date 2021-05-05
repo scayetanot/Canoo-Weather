@@ -23,7 +23,7 @@ class DetailsActivityViewModel @Inject constructor(
     fun getDailyTemperatures(city: String?){
         viewModelScope.launch {
             try{
-                when(val response = repositoryImpl.getDailyTemperatures(city!!)){
+                when(val response = repositoryImpl.getDayWeather(city!!)){
                     is ResultForeCast.Success -> {
                         _resultDailyTemperature.postValue(response.data)
                     }

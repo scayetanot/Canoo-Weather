@@ -11,7 +11,7 @@ import com.example.canooweather.data.entity.ForeCast
 interface LocalDataSourceImpl {
 
     @Query("SELECT * FROM ForeCast WHERE city = :city LIMIT 1")
-    suspend fun getDailyTemperature(city: String): ForeCast
+    suspend fun getDayWeather(city: String): ForeCast
 
     @Query("SELECT * FROM ForeCast")
     suspend fun getForecast(): ForeCast

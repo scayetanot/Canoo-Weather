@@ -6,4 +6,10 @@
     <string name="empty_value">--</string>
     <string name="separation">/</string>
     <string name="percentage">%</string>
+    <string name="max">Max: </string>
+    <string name="min">Min: </string>
+    <string name="sunrise">Sunrise: </string>
+    <string name="sunset">Sunset: </string>
+    <string name="humidity">Humidity: </string>
+    <string name="week">Get coming days</string>
 </resources>

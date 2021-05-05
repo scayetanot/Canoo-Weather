@@ -13,6 +13,12 @@ fun convertToReadableDate(timestamp: Long): String {
     return DateFormat.format("dd-MM-yyyy  hh:mm:ss a", cal).toString()
 }
 
+fun convertToReadableHours(timestamp: Long): String {
+    val cal = Calendar.getInstance(Locale.ENGLISH)
+    cal.timeInMillis = timestamp * 1000
+    return DateFormat.format("hh:mm a", cal).toString()
+}
+
 fun convertToReadableDay(timestamp: Long): String {
     val cal = Calendar.getInstance(Locale.ENGLISH)
     cal.timeInMillis = timestamp * 1000
@@ -23,11 +29,6 @@ fun formatTemperature(temperature: Float?): String {
     return temperature?.toInt().toString() + "\u2109"
 }
 
-fun findDrawable(context: Context, name: String): Drawable {
-    val drawableId = context.resources.getIdentifier(name.replace("-",""), "drawable", context.packageName)
-    return context.resources.getDrawable(drawableId)
-}
-
-fun convertToUri(icon: String): Uri = Uri.parse("http://openweathermap.org/img/wn/$icon@2x.png")
+fun convertToUri(icon: String): Uri = Uri.parse("https://openweathermap.org/img/wn/$icon.png")
 
 

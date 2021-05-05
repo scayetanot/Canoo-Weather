@@ -10,5 +10,5 @@ interface AppRepository {
     suspend fun getForecastFromApi(context: Context, latitude: Double, longitude: Double): ResultForeCast<ForeCast>
     suspend fun getForecastFromDb(): ResultForeCast<ForeCast>
 
-    suspend fun getDailyTemperatures(city: String): ResultForeCast<List<DailyEntity>>
+    suspend fun getDayWeather(city: String): ResultForeCast<List<DailyEntity>>
 }

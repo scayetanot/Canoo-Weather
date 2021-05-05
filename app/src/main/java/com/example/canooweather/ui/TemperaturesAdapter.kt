@@ -10,7 +10,6 @@ import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.DailyTempItemLayoutBinding
 import com.example.canooweather.utils.convertToReadableDay
 import com.example.canooweather.utils.convertToUri
-import com.example.canooweather.utils.findDrawable
 import com.example.canooweather.utils.formatTemperature
 
 class TemperaturesAdapter(

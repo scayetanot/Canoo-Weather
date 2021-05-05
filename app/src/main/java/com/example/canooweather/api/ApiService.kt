@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("/data/2.5/onecall?&exclude=minutely,alerts,hourly")
+    @GET("/data/2.5/onecall?&exclude=minutely,alerts,hourly&units=imperial")
     suspend fun getForecast(@Query("appid") id: String,
                             @Query("lat") latitude: Double,
                             @Query("lon") longitude: Double): WeatherForeCast

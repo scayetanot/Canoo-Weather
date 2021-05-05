@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.canooweather.MainApplication
 import com.example.canooweather.R
+import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.ActivityMainBinding
 import com.example.canooweather.utils.*
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var binding: ActivityMainBinding
-     var city: String = ""
+    var city: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,18 +49,17 @@ class MainActivity : AppCompatActivity() {
         Fresco.initialize(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        //setContentView(R.layout.activity_main)
-
-        //fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         initViews()
         initObservers()
         checkLocationPermission()
 
-        binding.weatherLayout.setOnClickListener {
-            if (savedInstanceState == null) {
+        binding.detailsBtn.setOnClickListener {
+            if (savedInstanceState == null && city.isNotEmpty()) {
                 val intent = Intent(this, DetailsActivity::class.java)
                 intent.putExtra(EXTRA_CITY, city)
                 startActivity(intent)
+            } else {
+                Toast.makeText(this,"No information available",Toast.LENGTH_LONG).show();
             }
         }
 
@@ -75,21 +76,17 @@ class MainActivity : AppCompatActivity() {
     private fun initObservers() {
 
         getViewModel().forecastResponse.observe(this, Observer {
+            city = it.city
             binding.locationWeatherPic.setImageURI(convertToUri(it.current.weather.first().icon))
             binding.locationCurrentTemperature.text = formatTemperature(it.current.temp)
-            city = it.city
             binding.locationName.text = it.city
             binding.locationSummary.text = it.current.weather.first().main
-            binding.highTemp.text = formatTemperature(it.daily.first().temp.max)
-            binding.lowTemp.text = formatTemperature(it.daily.first().temp.min)
-            binding.sunrise.text = convertToReadableDate(it.current.sunrise)
-            binding.sunset.text = convertToReadableDate(it.current.sunset)
-            binding.humidity.text = """${it.current.humidity}${getString(R.string.percentage)}"""
+            binding.highTemp.text = getString(R.string.max) + " " + formatTemperature(it.daily.first().temp.max)
+            binding.lowTemp.text = getString(R.string.min) + " " + formatTemperature(it.daily.first().temp.min)
+            binding.sunrise.text = getString(R.string.sunrise) + " " + convertToReadableHours(it.current.sunrise)
+            binding.sunset.text = getString(R.string.sunset)  + " "+ convertToReadableHours(it.current.sunset)
+            binding.humidity.text = getString(R.string.humidity)  + " " + """${it.current.humidity}${getString(R.string.percentage)}"""
         })
-
-     //   getViewModel().findCityResponse.observe(this, Observer {
-     //       binding.locationName.text = it
-     //   })
 
         getViewModel().errorMessage.observe(this, Observer {
             Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG).show();

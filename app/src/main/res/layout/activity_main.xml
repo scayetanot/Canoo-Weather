@@ -22,16 +22,16 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="5dp"
-            android:scaleType="fitXY"
-            fresco:placeholderImage="@drawable/default_weather"/>
+            fresco:actualImageScaleType="fitCenter"
+            fresco:progressBarAutoRotateInterval="700"
+            fresco:progressBarImage="@drawable/progress_wheel_light" />
 
         <TextView
             android:id="@+id/locationCurrentTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:text="@string/empty_value"
-            android:textSize="54sp"
+            android:textSize="36sp"
             tools:text="23" />
 
         <TextView
@@ -40,14 +40,14 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="@string/empty_value"
-            android:textSize="56sp"
+            android:textSize="24sp"
             tools:text="Los Angeles" />
 
         <TextView
             android:id="@+id/locationSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:text="@string/empty_value"
             android:textSize="14sp"
             tools:text="summary" />
@@ -96,6 +96,15 @@
             android:text="@string/empty_value"
             android:textSize="14sp"
             tools:text="20%" />
+
+        <Button
+            android:id="@+id/details_btn"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:textColor="@color/black"
+            android:text="@string/week"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

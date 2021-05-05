@@ -115,7 +115,10 @@ dependencies {
     implementation "androidx.room:room-runtime:2.3.0"
     kapt "androidx.room:room-compiler:2.3.0"
 
-    implementation 'com.facebook.fresco:fresco:2.4.0'
+    implementation('com.facebook.fresco:fresco:2.4.0') {
+        exclude group: "com.parse.bolts", module: 'bolts-android'
+    }
+    implementation 'com.facebook.fresco:animated-gif:2.4.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
