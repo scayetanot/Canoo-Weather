@@ -45,14 +45,14 @@ class AppRepositoryImpl(
     private fun getCityName(ctx: Context, lat: Double, lon: Double): String? {
             val gcd = Geocoder( ctx, Locale.getDefault())
             val addr: List<Address>
-            var cityName: String?
+            var cityName: String? = ""
 
             try {
                 addr = gcd.getFromLocation(lat, lon, 1)
-                cityName = addr.firstOrNull()?.locality
+                cityName = if(addr.firstOrNull()?.locality.isNullOrEmpty()) addr.firstOrNull()?.adminArea else addr.firstOrNull()?.locality
             } catch (e: IOException) {
                 cityName = ""
             }
-            return cityName!!
+            return cityName
     }
 }

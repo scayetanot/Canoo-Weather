@@ -21,7 +21,7 @@ data class CurrentEntity (
         @SerializedName("dew_point")
         var dewPoint: Float,
         @SerializedName("uvi")
-        var uvi: Int,
+        var uvi: Float,
         @SerializedName("clouds")
         var clouds: Int,
         @SerializedName("visibility")

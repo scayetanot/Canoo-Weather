@@ -20,7 +20,8 @@ class MainActivityViewModel @Inject constructor(
     private val repositoryImpl: AppRepositoryImpl
 ) : ViewModel() {
 
-    val forecastResponse = MutableLiveData<ForeCast>()
+    private var _forecastResponse = MutableLiveData<ForeCast>()
+    val forecastResponse: LiveData<ForeCast> = _forecastResponse
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
@@ -31,7 +32,7 @@ class MainActivityViewModel @Inject constructor(
             try {
                when (val response = repositoryImpl.getForecast(ctx, lat, lon)){
                     is ResultForeCast.Success -> {
-                        forecastResponse.postValue(response.data)
+                        _forecastResponse.postValue(response.data)
                     }
                     is ResultForeCast.Error -> {
                         _errorMessage.postValue(response.exception.toString())

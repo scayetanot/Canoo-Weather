@@ -1,6 +1,7 @@
 package com.example.canooweather.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -23,6 +24,8 @@ import com.example.canooweather.data.entity.DailyEntity
 import com.example.canooweather.databinding.ActivityMainBinding
 import com.example.canooweather.utils.*
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.location.LocationServices
 import javax.inject.Inject
 
 
@@ -71,14 +74,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         if(isInternetOn)
-            getViewModel().getForeCast(this, latitude, longitude )
+      //      getViewModel().getForeCast(this, latitude, longitude )
         else {
             displayErrorMessage()
         }
     }
 
-    private fun displayErrorMessage(){
-        Toast.makeText(this,"Connection Error",Toast.LENGTH_LONG).show();
+    private fun displayErrorMessage(msg: String = "Connection Error"){
+        Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
     }
 
     private fun initObservers() {
@@ -110,7 +113,9 @@ class MainActivity : AppCompatActivity() {
                 requestPermission()
             }
         } else {
+            //acquireLocation() //Commented the use of fused as on emulator it's not working fine
             requestLocation()
+
         }
     }
 
@@ -141,7 +146,8 @@ class MainActivity : AppCompatActivity() {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Log.d("LOG", "User didn't allowed the location")
                 } else {
-                    requestLocation();
+                    requestLocation()
+                    //acquireLocation() //Commented the use of fused as on emulator it's not working fine
 
                 }
             }
@@ -164,11 +170,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /* Keep the api code as reference for FusedLocation */
+    @SuppressLint("MissingPermission")
+    private fun acquireLocation() {
+        val googleApiAvailability = GoogleApiAvailability.getInstance()
+        val result = googleApiAvailability.isGooglePlayServicesAvailable(this)
+        if (googleApiAvailability.isUserResolvableError(result)) {
+            GoogleApiAvailability.getInstance().getErrorDialog(this, result, 123)
+        } else {
+            val client = LocationServices.getFusedLocationProviderClient(this)
+            client.lastLocation.addOnSuccessListener { location: Location? ->
+                location?.let {
+                    latitude = it.latitude
+                    longitude = it.longitude
+                    getViewModel().getForeCast(this, latitude, longitude)
+                } ?: displayErrorMessage("Enable to get Location")
+            }
+        }
+    }
+
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            latitude = location.latitude
-            longitude = location.longitude
-            getViewModel().getForeCast(applicationContext, latitude, longitude)
+            if(location != null) {
+                latitude = location.latitude
+                longitude = location.longitude
+                getViewModel().getForeCast(applicationContext, latitude, longitude)
+            }
+
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
