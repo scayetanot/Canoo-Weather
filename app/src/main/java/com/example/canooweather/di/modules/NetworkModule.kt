@@ -1,7 +1,7 @@
 package com.example.canooweather.di.modules
 
-import com.example.canooweather.api.ApiService
 import com.example.canooweather.BuildConfig
+import com.example.canooweather.api.ApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

@@ -2,7 +2,6 @@ package com.example.canooweather.api
 
 import com.example.canooweather.data.entity.response.WeatherForeCast
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {

@@ -3,7 +3,7 @@ package com.example.canooweather.data.entity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class CurrentlyEntity (
+data class CurrentEntity (
         @SerializedName("dt")
         var dt: Long,
         @SerializedName("sunrise")

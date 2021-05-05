@@ -38,7 +38,7 @@ data class DailyEntity (
     @SerializedName("pop")
     var pop: Float,
     @SerializedName("rain")
-    var rain: Float,
+    var rain: Float?,
     @SerializedName("uvi")
-    var uvi: Int
+    var uvi: Float
 )
